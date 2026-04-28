@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="theme-color" content="#fafafa">
+	<link rel="manifest" href="manifest.json">
+    <title>Gudron</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+            background: #fafafa;
+            color: #1d1d1f;
+            padding: 24px 20px 88px;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 500;
+            letter-spacing: -0.8px;
+            color: #1d1d1f;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #8e8e93;
+            margin-top: 6px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 2px;
+            background: #ffffff;
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            border: 0.5px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 16px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            font-size: 15px;
+            font-weight: 500;
+            color: #8e8e93;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: #ffffff;
+            color: #1d1d1f;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 0.5px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+            letter-spacing: -0.3px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #8e8e93;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .custom-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .select-trigger {
+            width: 100%;
+            padding: 14px 16px;
+            background: #f8f8fa;
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
+            border-radius: 18px;
+            font-size: 16px;
+            color: #1d1d1f;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-trigger::after {
+            content: '›';
+            font-size: 20px;
+            color: #c6c6c8;
+            transition: transform 0.2s;
+        }
+
+        .select-trigger.open::after {
+            transform: rotate(90deg);
+        }
+
+        .select-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+            z-index: 100;
+            max-height: 280px;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .select-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .select-dropdown-item {
+            padding: 14px 16px;
+            font-size: 16px;
+            color: #1d1d1f;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .select-dropdown-item:first-child {
+            border-radius: 20px 20px 0 0;
+        }
+
+        .select-dropdown-item:last-child {
+            border-radius: 0 0 20px 20px;
+        }
+
+        .select-dropdown-item:hover,
+        .select-dropdown-item:active {
+            background: #f8f8fa;
+        }
+
+        .select-dropdown-item.selected {
+            background: #f0f0f2;
+            font-weight: 500;
+        }
+
+        .select-dropdown::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .select-dropdown::-webkit-scrollbar-track {
+            background: #f0f0f2;
+            border-radius: 4px;
+        }
+
+        .select-dropdown::-webkit-scrollbar-thumb {
+            background: #c6c6c8;
+            border-radius: 4px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #f8f8fa;
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
+            border-radius: 18px;
+            font-size: 16px;
+            color: #1d1d1f;
+            font-family: inherit;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #c4c4c6;
+            background: #ffffff;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 0.5;
+        }
+
+        #searchProductInput {
+            width: 100%;
+            padding: 14px 16px;
+            background: #f8f8fa;
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
+            border-radius: 18px;
+            font-size: 16px;
+            color: #1d1d1f;
+            font-family: inherit;
+        }
+
+        #searchProductInput:focus {
+            outline: none;
+            border-color: #c4c4c6;
+            background: #ffffff;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #1d1d1f;
+            color: #ffffff;
+        }
+
+        .btn-primary:active {
+            background: #2c2c2e;
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: #f8f8fa;
+            color: #1d1d1f;
+            border: 0.5px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-danger {
+            background: #fef6f6;
+            color: #c4a0a0;
+        }
+
+        .rings-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .ring-item {
+            text-align: center;
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .ring-label {
+            font-size: 12px;
+            font-weight: 450;
+            color: #8e8e93;
+            margin-top: 8px;
+        }
+
+        .ring-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1d1d1f;
+            margin-top: 4px;
+        }
+
+        .progress-ring {
+            display: inline-block;
+            position: relative;
+        }
+
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: #f0f0f2;
+            stroke-width: 5;
+        }
+
+        .ring-progress {
+            fill: none;
+            stroke-width: 5;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.3s ease;
+        }
+
+        .ring-progress.cal { stroke: #1d1d1f; }
+        .ring-progress.pro { stroke: #9bae8c; }
+        .ring-progress.fat { stroke: #d4a58c; }
+        .ring-progress.carbs { stroke: #8cadc4; }
+
+        .ring-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 500;
+            font-size: 13px;
+            color: #1d1d1f;
+        }
+
+        .food-list {
+            max-height: 360px;
+            overflow-y: auto;
+        }
+
+        .food-item {
+            padding: 14px 0;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .food-item:last-child {
+            border-bottom: none;
+        }
+
+        .food-info {
+            flex: 1;
+        }
+
+        .food-name {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #1d1d1f;
+        }
+
+        .food-macros {
+            font-size: 12px;
+            color: #8e8e93;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .macro-marker {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+        .marker-pro { background: #9bae8c; }
+        .marker-fat { background: #d4a58c; }
+        .marker-carbs { background: #8cadc4; }
+
+        .macro-value {
+            font-weight: 450;
+        }
+
+        .food-weight {
+            font-size: 13px;
+            font-weight: 450;
+            color: #8e8e93;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            font-weight: 400;
+            color: #c6c6c8;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 20px;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:active {
+            background: #f0f0f2;
+        }
+
+        .history-item {
+            background: #f8f8fa;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 10px;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .history-details {
+            font-size: 12px;
+            color: #8e8e93;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .time-badge {
+            font-size: 11px;
+            color: #c6c6c8;
+            margin-top: 6px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: #c6c6c8;
+            font-size: 14px;
+        }
+
+        .row-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .row-4 input {
+            text-align: center;
+            padding: 12px 8px;
+            font-size: 14px;
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .goal-input {
+            text-align: center;
+        }
+
+        .goal-input label {
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .goal-input input {
+            padding: 12px 6px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .button-group .btn {
+            flex: 1;
+        }
+
+        /* ===== СТИЛИ ДЛЯ СТАТИСТИКИ В АРХИВЕ ===== */
+        .history-stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 10px 0;
+        }
+
+        .history-stat-label {
+            font-size: 14px;
+            font-weight: 450;
+            color: #8e8e93;
+        }
+
+        .history-stat-value {
+            font-size: 18px;
+            font-weight: 500;
+            color: #1d1d1f;
+        }
+
+        /* Достижение нормы (зеленый оттенок) */
+        .achieved {
+            background: linear-gradient(90deg, rgba(155, 174, 140, 0.15) 0%, rgba(155, 174, 140, 0) 70%);
+            border-left: 3px solid #9bae8c;
+            padding-left: 12px;
+            margin-left: -15px;
+            border-radius: 0 12px 12px 0;
+        }
+
+        /* Перебор нормы (мягкий красный/розовый оттенок) */
+        .over {
+            background: linear-gradient(90deg, rgba(212, 165, 140, 0.2) 0%, rgba(212, 165, 140, 0) 70%);
+            border-left: 3px solid #d4a58c;
+            padding-left: 12px;
+            margin-left: -15px;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .history-stat-value.achieved-text {
+            color: #9bae8c;
+            font-weight: 600;
+        }
+
+        .history-stat-value.over-text {
+            color: #d4a58c;
+            font-weight: 600;
+        }
+    </style>
+    
+    <link rel="icon" type="image/png" href="image1.svg">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <h1 style="margin: 0;">Gudron</h1>
+                <img src="image2.png" width="34" height="34" alt="icon">
+            </div>
+            <p>дневник питания</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('diary')">Сегодня</button>
+            <button class="tab" onclick="switchTab('products')">База продуктов</button>
+            <button class="tab" onclick="switchTab('history')">История</button>
+        </div>
+
+        <div id="diaryTab">
+            <div class="card">
+                <div class="card-title">Новый приём</div>
+                <div class="form-group">
+                    <label>Продукт</label>
+                    <div class="custom-select" id="productSelect">
+                        <div class="select-trigger" id="productSelectTrigger">
+                            <span id="productSelectValue">Выберите продукт</span>
+                        </div>
+                        <div class="select-dropdown" id="productSelectDropdown"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Масса, грамм</label>
+                    <input type="number" id="weightInput" placeholder="100" min="0" step="1">
+                </div>
+                <button class="btn btn-primary" onclick="addToDiary()">Добавить</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Прогресс</div>
+                <div class="rings-container">
+                    <div class="ring-item">
+                        <div class="progress-ring">
+                            <svg width="80" height="80">
+                                <circle class="ring-bg" cx="40" cy="40" r="35"></circle>
+                                <circle class="ring-progress cal" id="ringCalProgress" cx="40" cy="40" r="35" stroke-dasharray="0, 220"></circle>
+                            </svg>
+                            <div class="ring-center"><span id="calPercent">0</span>%</div>
+                        </div>
+                        <div class="ring-label">Калории</div>
+                        <div class="ring-value" id="totalCalories">0 / 1700</div>
+                    </div>
+                    <div class="ring-item">
+                        <div class="progress-ring">
+                            <svg width="80" height="80">
+                                <circle class="ring-bg" cx="40" cy="40" r="35"></circle>
+                                <circle class="ring-progress pro" id="ringProProgress" cx="40" cy="40" r="35" stroke-dasharray="0, 220"></circle>
+                            </svg>
+                            <div class="ring-center"><span id="proPercent">0</span>%</div>
+                        </div>
+                        <div class="ring-label">Белки</div>
+                        <div class="ring-value" id="totalProtein">0 / 110</div>
+                    </div>
+                    <div class="ring-item">
+                        <div class="progress-ring">
+                            <svg width="80" height="80">
+                                <circle class="ring-bg" cx="40" cy="40" r="35"></circle>
+                                <circle class="ring-progress fat" id="ringFatProgress" cx="40" cy="40" r="35" stroke-dasharray="0, 220"></circle>
+                            </svg>
+                            <div class="ring-center"><span id="fatPercent">0</span>%</div>
+                        </div>
+                        <div class="ring-label">Жиры</div>
+                        <div class="ring-value" id="totalFat">0 / 50</div>
+                    </div>
+                    <div class="ring-item">
+                        <div class="progress-ring">
+                            <svg width="80" height="80">
+                                <circle class="ring-bg" cx="40" cy="40" r="35"></circle>
+                                <circle class="ring-progress carbs" id="ringCarbsProgress" cx="40" cy="40" r="35" stroke-dasharray="0, 220"></circle>
+                            </svg>
+                            <div class="ring-center"><span id="carbsPercent">0</span>%</div>
+                        </div>
+                        <div class="ring-label">Углеводы</div>
+                        <div class="ring-value" id="totalCarbs">0 / 180</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Летопись</div>
+                <div id="todayList" class="food-list"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">План</div>
+                <div class="goals-grid">
+                    <div class="goal-input"><label>Ккал</label><input type="number" id="normCalories" placeholder="1700" min="0" step="1"></div>
+                    <div class="goal-input"><label>Белки</label><input type="number" id="normProtein" placeholder="110" min="0" step="1"></div>
+                    <div class="goal-input"><label>Жиры</label><input type="number" id="normFat" placeholder="50" min="0" step="1"></div>
+                    <div class="goal-input"><label>Углеводы</label><input type="number" id="normCarbs" placeholder="180" min="0" step="1"></div>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="updateNorms()">Сохранить</button>
+                    <button class="btn btn-danger" onclick="resetDay()">Сбросить</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="productsTab" style="display: none;">
+            <div class="card">
+                <div class="card-title">Новый продукт</div>
+                <div class="form-group">
+                    <label>Название</label>
+                    <input type="text" id="newProductName" placeholder="Гречка">
+                </div>
+                <div class="row-4">
+                    <input type="number" id="newCalories" placeholder="Ккал" min="0" step="1">
+                    <input type="number" id="newProtein" placeholder="Б" min="0" step="0.1">
+                    <input type="number" id="newFat" placeholder="Ж" min="0" step="0.1">
+                    <input type="number" id="newCarbs" placeholder="У" min="0" step="0.1">
+                </div>
+                <button class="btn btn-primary" onclick="addProduct()">Добавить</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Поиск</div>
+                <input type="text" id="searchProductInput" placeholder="почему родители не могут мной гордиться..." oninput="filterProducts()">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Мои продукты</div>
+                <div id="productsList" class="food-list"></div>
+            </div>
+        </div>
+
+        <div id="historyTab" style="display: none;">
+            <div class="card">
+                <div class="card-title">Архив</div>
+                <div class="form-group">
+                    <label>Дата</label>
+                    <div class="custom-select" id="historyDateSelect">
+                        <div class="select-trigger" id="historyDateTrigger">
+                            <span id="historyDateValue">Выберите дату</span>
+                        </div>
+                        <div class="select-dropdown" id="historyDateDropdown"></div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="copyToToday()">Копировать</button>
+                    <button class="btn btn-danger" onclick="deleteDay()">Удалить</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">Статистика дня</div>
+                <div id="historyStats"><div class="empty-state">Выберите дату</div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let foods = {
+            "Авокадо": { calories: 160, protein: 2, fat: 15, carbs: 9 },
+            "Банан": { calories: 89, protein: 1.1, fat: 0.3, carbs: 23 },
+            "Гречка": { calories: 110, protein: 4.2, fat: 1.1, carbs: 23 },
+            "Куриная грудка": { calories: 165, protein: 31, fat: 3.6, carbs: 0 },
+            "Овсянка": { calories: 68, protein: 2.4, fat: 1.4, carbs: 12 },
+            "Рис отварной": { calories: 130, protein: 2.7, fat: 0.3, carbs: 28 },
+            "Творог 5%": { calories: 121, protein: 17, fat: 5, carbs: 1.8 },
+            "Яблоко": { calories: 52, protein: 0.3, fat: 0.2, carbs: 14 },
+            "Яйцо": { calories: 155, protein: 13, fat: 11, carbs: 0.7 }
+        };
+        
+        let todayFoods = [];
+        let norms = { calories: 1700, protein: 110, fat: 50, carbs: 180 };
+        
+        let selectedProduct = null;
+        let selectedHistoryDate = null;
+        let selectedHistoryData = null;
+        
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchProductInput').value.toLowerCase().trim();
+            const listDiv = document.getElementById('productsList');
+            const sorted = Object.keys(foods).sort();
+            
+            const filtered = sorted.filter(name => name.toLowerCase().includes(searchTerm));
+            
+            if (filtered.length === 0) {
+                listDiv.innerHTML = '<div class="empty-state">Ничего не найдено</div>';
+            } else {
+                listDiv.innerHTML = filtered.map(name => {
+                    const n = foods[name];
+                    return `
+                        <div class="food-item">
+                            <div class="food-info">
+                                <div class="food-name">${name}</div>
+                                <div class="food-macros">
+                                    <span>${n.calories} ккал</span>
+                                    <span><span class="macro-marker marker-pro"></span>${n.protein}</span>
+                                    <span><span class="macro-marker marker-fat"></span>${n.fat}</span>
+                                    <span><span class="macro-marker marker-carbs"></span>${n.carbs}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="icon-btn" onclick="editProduct('${name}')">›</button>
+                                <button class="icon-btn" onclick="deleteProduct('${name}')">×</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+        
+        function buildCustomSelect(containerId, options, onSelect, placeholder) {
+            const container = document.getElementById(containerId);
+            const trigger = container.querySelector('.select-trigger');
+            const valueSpan = trigger.querySelector('span');
+            const dropdown = container.querySelector('.select-dropdown');
+            
+            function renderDropdown() {
+                dropdown.innerHTML = '';
+                options.forEach(opt => {
+                    const item = document.createElement('div');
+                    item.className = 'select-dropdown-item';
+                    if (opt === valueSpan.innerText && opt !== placeholder) {
+                        item.classList.add('selected');
+                    }
+                    item.textContent = opt;
+                    item.onclick = (e) => {
+                        e.stopPropagation();
+                        valueSpan.innerText = opt;
+                        onSelect(opt);
+                        closeDropdown();
+                    };
+                    dropdown.appendChild(item);
+                });
+            }
+            
+            function openDropdown() {
+                dropdown.classList.add('open');
+                trigger.classList.add('open');
+                renderDropdown();
+                document.addEventListener('click', closeDropdownOnOutside);
+            }
+            
+            function closeDropdown() {
+                dropdown.classList.remove('open');
+                trigger.classList.remove('open');
+                document.removeEventListener('click', closeDropdownOnOutside);
+            }
+            
+            function closeDropdownOnOutside(e) {
+                if (!container.contains(e.target)) {
+                    closeDropdown();
+                }
+            }
+            
+            trigger.onclick = (e) => {
+                e.stopPropagation();
+                if (dropdown.classList.contains('open')) {
+                    closeDropdown();
+                } else {
+                    openDropdown();
+                }
+            };
+            
+            valueSpan.innerText = placeholder;
+            renderDropdown();
+        }
+        
+        function updateProductSelectCustom() {
+            const productNames = Object.keys(foods).sort();
+            buildCustomSelect('productSelect', productNames, (selected) => {
+                selectedProduct = selected;
+            }, 'Выберите продукт');
+        }
+        
+        function updateHistorySelectCustom() {
+            const dates = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('eatly_day_')) {
+                    dates.push(key.replace('eatly_day_', ''));
+                }
+            }
+            dates.sort().reverse();
+            if (dates.length === 0) {
+                buildCustomSelect('historyDateSelect', [], () => {}, 'Нет данных');
+            } else {
+                buildCustomSelect('historyDateSelect', dates, (selected) => {
+                    loadHistoryByDate(selected);
+                }, 'Выберите дату');
+            }
+        }
+        
+        function loadHistoryByDate(date) {
+            const saved = localStorage.getItem(`eatly_day_${date}`);
+            if (!saved) return;
+            const data = JSON.parse(saved);
+            let total = { calories: 0, protein: 0, fat: 0, carbs: 0 };
+            data.forEach(f => { total.calories += f.calories; total.protein += f.protein; total.fat += f.fat; total.carbs += f.carbs; });
+            
+            // Определяем проценты выполнения
+            const calPercent = (total.calories / norms.calories) * 100;
+            const proPercent = (total.protein / norms.protein) * 100;
+            const fatPercent = (total.fat / norms.fat) * 100;
+            const carbsPercent = (total.carbs / norms.carbs) * 100;
+            
+            // Функция для определения класса строки
+            function getRowClass(percent) {
+                if (percent >= 95 && percent <= 105) return 'achieved';
+                if (percent > 105) return 'over';
+                return '';
+            }
+            
+            // Функция для класса текста значения
+            function getValueClass(percent) {
+                if (percent >= 95 && percent <= 105) return 'achieved-text';
+                if (percent > 105) return 'over-text';
+                return '';
+            }
+            
+            document.getElementById('historyStats').innerHTML = `
+                <div class="${getRowClass(calPercent)}" style="margin-bottom: 8px;">
+                    <div class="history-stat-row">
+                        <span class="history-stat-label">Калории</span>
+                        <span class="history-stat-value ${getValueClass(calPercent)}">${Math.round(total.calories)} / ${norms.calories}</span>
+                    </div>
+                </div>
+                <div class="${getRowClass(proPercent)}" style="margin-bottom: 8px;">
+                    <div class="history-stat-row">
+                        <span class="history-stat-label">Белки</span>
+                        <span class="history-stat-value ${getValueClass(proPercent)}">${Math.round(total.protein)} / ${norms.protein}</span>
+                    </div>
+                </div>
+                <div class="${getRowClass(fatPercent)}" style="margin-bottom: 8px;">
+                    <div class="history-stat-row">
+                        <span class="history-stat-label">Жиры</span>
+                        <span class="history-stat-value ${getValueClass(fatPercent)}">${Math.round(total.fat)} / ${norms.fat}</span>
+                    </div>
+                </div>
+                <div class="${getRowClass(carbsPercent)}" style="margin-bottom: 8px;">
+                    <div class="history-stat-row">
+                        <span class="history-stat-label">Углеводы</span>
+                        <span class="history-stat-value ${getValueClass(carbsPercent)}">${Math.round(total.carbs)} / ${norms.carbs}</span>
+                    </div>
+                </div>
+            `;
+            window.selectedHistoryDate = date;
+            window.selectedHistoryData = data;
+        }
+        
+        function loadData() {
+            const saved = localStorage.getItem('eatly_foods');
+            if (saved) foods = JSON.parse(saved);
+            const today = new Date().toISOString().split('T')[0];
+            const savedDay = localStorage.getItem(`eatly_day_${today}`);
+            if (savedDay) todayFoods = JSON.parse(savedDay);
+            const savedNorms = localStorage.getItem('eatly_norms');
+            if (savedNorms) norms = JSON.parse(savedNorms);
+            updateProductSelectCustom();
+            updateProductsList();
+            updateTodayDisplay();
+            updateHistorySelectCustom();
+        }
+        
+        function saveData() {
+            localStorage.setItem('eatly_foods', JSON.stringify(foods));
+            const today = new Date().toISOString().split('T')[0];
+            localStorage.setItem(`eatly_day_${today}`, JSON.stringify(todayFoods));
+            localStorage.setItem('eatly_norms', JSON.stringify(norms));
+            updateHistorySelectCustom();
+        }
+        
+        function addToDiary() {
+            const product = selectedProduct;
+            const weight = parseFloat(document.getElementById('weightInput').value);
+            if (!product || !weight || weight <= 0) { alert('Выберите продукт и массу'); return; }
+            if (isNaN(weight) || weight < 0) { alert('Масса не может быть отрицательной'); return; }
+            const n = foods[product];
+            const factor = weight / 100;
+            todayFoods.push({
+                product: product, weight: weight,
+                calories: Math.round(n.calories * factor * 10) / 10,
+                protein: Math.round(n.protein * factor * 10) / 10,
+                fat: Math.round(n.fat * factor * 10) / 10,
+                carbs: Math.round(n.carbs * factor * 10) / 10,
+                time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+            });
+            saveData();
+            updateTodayDisplay();
+            document.getElementById('weightInput').value = '';
+            selectedProduct = null;
+            document.querySelector('#productSelect .select-trigger span').innerText = 'Выберите продукт';
+        }
+        
+        function updateTodayDisplay() {
+            const listDiv = document.getElementById('todayList');
+            if (todayFoods.length === 0) listDiv.innerHTML = '<div class="empty-state">Нет записей</div>';
+            else {
+                listDiv.innerHTML = todayFoods.map((food, index) => `
+                    <div class="food-item">
+                        <div class="food-info">
+                            <div class="food-name">${food.product}</div>
+                            <div class="food-macros">
+                                <span class="food-weight">${food.weight} г</span>
+                                <span><span class="macro-marker marker-pro"></span><span class="macro-value">${food.protein}</span></span>
+                                <span><span class="macro-marker marker-fat"></span><span class="macro-value">${food.fat}</span></span>
+                                <span><span class="macro-marker marker-carbs"></span><span class="macro-value">${food.carbs}</span></span>
+                            </div>
+                            <div class="time-badge">${food.time}</div>
+                        </div>
+                        <button class="icon-btn" onclick="removeFromToday(${index})">×</button>
+                    </div>
+                `).join('');
+            }
+            
+            let total = { calories: 0, protein: 0, fat: 0, carbs: 0 };
+            todayFoods.forEach(f => { total.calories += f.calories; total.protein += f.protein; total.fat += f.fat; total.carbs += f.carbs; });
+            
+            const circumference = 2 * Math.PI * 35;
+            const setRing = (id, percent) => {
+                const dash = (percent / 100) * circumference;
+                const element = document.getElementById(id);
+                if (element) element.style.strokeDasharray = `${dash} ${circumference}`;
+            };
+            
+            const calPerc = Math.min(100, (total.calories / norms.calories) * 100);
+            const proPerc = Math.min(100, (total.protein / norms.protein) * 100);
+            const fatPerc = Math.min(100, (total.fat / norms.fat) * 100);
+            const carbsPerc = Math.min(100, (total.carbs / norms.carbs) * 100);
+            
+            setRing('ringCalProgress', calPerc);
+            setRing('ringProProgress', proPerc);
+            setRing('ringFatProgress', fatPerc);
+            setRing('ringCarbsProgress', carbsPerc);
+            
+            document.getElementById('calPercent').innerText = Math.round(calPerc);
+            document.getElementById('proPercent').innerText = Math.round(proPerc);
+            document.getElementById('fatPercent').innerText = Math.round(fatPerc);
+            document.getElementById('carbsPercent').innerText = Math.round(carbsPerc);
+            
+            document.getElementById('totalCalories').innerHTML = `${Math.round(total.calories)} / ${norms.calories}`;
+            document.getElementById('totalProtein').innerHTML = `${Math.round(total.protein)} / ${norms.protein}`;
+            document.getElementById('totalFat').innerHTML = `${Math.round(total.fat)} / ${norms.fat}`;
+            document.getElementById('totalCarbs').innerHTML = `${Math.round(total.carbs)} / ${norms.carbs}`;
+        }
+        
+        function removeFromToday(index) { todayFoods.splice(index, 1); saveData(); updateTodayDisplay(); }
+        
+        function resetDay() { if (confirm('Очистить всё?')) { todayFoods = []; saveData(); updateTodayDisplay(); } }
+        
+        function updateNorms() {
+            let nc = document.getElementById('normCalories').value;
+            let np = document.getElementById('normProtein').value;
+            let nf = document.getElementById('normFat').value;
+            let ncb = document.getElementById('normCarbs').value;
+            
+            if (nc !== '') { let val = parseFloat(nc); if (val >= 0) norms.calories = val; else alert('Калории не могут быть отрицательными'); }
+            if (np !== '') { let val = parseFloat(np); if (val >= 0) norms.protein = val; else alert('Белки не могут быть отрицательными'); }
+            if (nf !== '') { let val = parseFloat(nf); if (val >= 0) norms.fat = val; else alert('Жиры не могут быть отрицательными'); }
+            if (ncb !== '') { let val = parseFloat(ncb); if (val >= 0) norms.carbs = val; else alert('Углеводы не могут быть отрицательными'); }
+            
+            saveData(); 
+            updateTodayDisplay();
+            
+            document.getElementById('normCalories').value = '';
+            document.getElementById('normProtein').value = '';
+            document.getElementById('normFat').value = '';
+            document.getElementById('normCarbs').value = '';
+        }
+        
+        function addProduct() {
+            const name = document.getElementById('newProductName').value.trim();
+            let cal = document.getElementById('newCalories').value;
+            let pro = document.getElementById('newProtein').value;
+            let fat = document.getElementById('newFat').value;
+            let carb = document.getElementById('newCarbs').value;
+            
+            if (!name) { alert('Введите название продукта'); return; }
+            
+            let calNum = parseFloat(cal);
+            let proNum = parseFloat(pro);
+            let fatNum = parseFloat(fat);
+            let carbNum = parseFloat(carb);
+            
+            if (isNaN(calNum) || calNum < 0) { alert('Калории должны быть положительным числом'); return; }
+            if (isNaN(proNum) || proNum < 0) { alert('Белки должны быть положительным числом'); return; }
+            if (isNaN(fatNum) || fatNum < 0) { alert('Жиры должны быть положительным числом'); return; }
+            if (isNaN(carbNum) || carbNum < 0) { alert('Углеводы должны быть положительным числом'); return; }
+            
+            foods[name] = { calories: calNum, protein: proNum, fat: fatNum, carbs: carbNum };
+            saveData(); 
+            updateProductSelectCustom(); 
+            updateProductsList();
+            
+            document.getElementById('newProductName').value = '';
+            document.getElementById('newCalories').value = '';
+            document.getElementById('newProtein').value = '';
+            document.getElementById('newFat').value = '';
+            document.getElementById('newCarbs').value = '';
+        }
+        
+        function updateProductsList() {
+            const listDiv = document.getElementById('productsList');
+            const sorted = Object.keys(foods).sort();
+            
+            const searchInput = document.getElementById('searchProductInput');
+            if (searchInput) searchInput.value = '';
+            
+            if (sorted.length === 0) listDiv.innerHTML = '<div class="empty-state">Нет продуктов</div>';
+            else {
+                listDiv.innerHTML = sorted.map(name => {
+                    const n = foods[name];
+                    return `
+                        <div class="food-item">
+                            <div class="food-info">
+                                <div class="food-name">${name}</div>
+                                <div class="food-macros">
+                                    <span>${n.calories} ккал</span>
+                                    <span><span class="macro-marker marker-pro"></span>${n.protein}</span>
+                                    <span><span class="macro-marker marker-fat"></span>${n.fat}</span>
+                                    <span><span class="macro-marker marker-carbs"></span>${n.carbs}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="icon-btn" onclick="editProduct('${name}')">›</button>
+                                <button class="icon-btn" onclick="deleteProduct('${name}')">×</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+        
+        function editProduct(name) {
+            const n = foods[name];
+            let newCal = prompt('Калории (ккал):', n.calories);
+            if (newCal !== null) {
+                let val = parseFloat(newCal);
+                if (!isNaN(val) && val >= 0) n.calories = val;
+                else if (val < 0) alert('Калории не могут быть отрицательными');
+            }
+            
+            let newPro = prompt('Белки (г):', n.protein);
+            if (newPro !== null) {
+                let val = parseFloat(newPro);
+                if (!isNaN(val) && val >= 0) n.protein = val;
+                else if (val < 0) alert('Белки не могут быть отрицательными');
+            }
+            
+            let newFat = prompt('Жиры (г):', n.fat);
+            if (newFat !== null) {
+                let val = parseFloat(newFat);
+                if (!isNaN(val) && val >= 0) n.fat = val;
+                else if (val < 0) alert('Жиры не могут быть отрицательными');
+            }
+            
+            let newCarb = prompt('Углеводы (г):', n.carbs);
+            if (newCarb !== null) {
+                let val = parseFloat(newCarb);
+                if (!isNaN(val) && val >= 0) n.carbs = val;
+                else if (val < 0) alert('Углеводы не могут быть отрицательными');
+            }
+            
+            saveData(); 
+            updateProductSelectCustom(); 
+            updateProductsList();
+        }
+        
+        function deleteProduct(name) { if (confirm(`Удалить "${name}"?`)) { delete foods[name]; saveData(); updateProductSelectCustom(); updateProductsList(); } }
+        
+        function deleteDay() { if (window.selectedHistoryDate && confirm('Удалить?')) { localStorage.removeItem(`eatly_day_${window.selectedHistoryDate}`); updateHistorySelectCustom(); document.getElementById('historyStats').innerHTML = '<div class="empty-state">Выберите дату</div>'; } }
+        
+        function copyToToday() { if (window.selectedHistoryData && confirm('Копировать?')) { todayFoods = JSON.parse(JSON.stringify(window.selectedHistoryData)); saveData(); updateTodayDisplay(); switchTab('diary'); } }
+        
+        function switchTab(tab) {
+            document.getElementById('diaryTab').style.display = tab === 'diary' ? 'block' : 'none';
+            document.getElementById('productsTab').style.display = tab === 'products' ? 'block' : 'none';
+            document.getElementById('historyTab').style.display = tab === 'history' ? 'block' : 'none';
+            document.querySelectorAll('.tab').forEach((t, i) => { t.classList.toggle('active', (tab === 'diary' && i === 0) || (tab === 'products' && i === 1) || (tab === 'history' && i === 2)); });
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>
