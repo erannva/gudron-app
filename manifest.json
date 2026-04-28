@@ -2,10 +2,10 @@
   "name": "Gudron",
   "short_name": "Гудрон",
   "description": "Дневник питания",
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#fafafa",
-  "theme_color": "#000000",
+  "theme_color": "#1d1d1f",
   "icons": [
     {
       "src": "image.png",
