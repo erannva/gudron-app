@@ -563,7 +563,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Вес, грамм</label>
+                    <label>Масса, грамм</label>
                     <input type="number" id="weightInput" placeholder="100" min="0" step="1">
                 </div>
                 <button class="btn btn-primary" onclick="addToDiary()">Добавить</button>
@@ -657,7 +657,7 @@
             
             <div class="card">
                 <div class="card-title">Поиск</div>
-                <input type="text" id="searchProductInput" placeholder="найти продукт..." oninput="filterProducts()">
+                <input type="text" id="searchProductInput" placeholder="почему родители не могут мной гордиться..." oninput="filterProducts()">
             </div>
             
             <div class="card">
@@ -907,8 +907,8 @@
         function addToDiary() {
             const product = selectedProduct;
             const weight = parseFloat(document.getElementById('weightInput').value);
-            if (!product || !weight || weight <= 0) { alert('Выберите продукт и вес'); return; }
-            if (isNaN(weight) || weight < 0) { alert('Вес не может быть отрицательным'); return; }
+            if (!product || !weight || weight <= 0) { alert('Выберите продукт и массу'); return; }
+            if (isNaN(weight) || weight < 0) { alert('Масса не может быть отрицательной'); return; }
             const n = foods[product];
             const factor = weight / 100;
             todayFoods.push({
