@@ -1,34 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-	<link rel="manifest" href="manifest.json">
-	<script type="text/javascript">
-    // Эта функция не даст ссылкам открываться во внешнем браузере.
-    // Подробнее: developers.google.cn/ad-manager/mobile-ads-sdk/android/browser/webview/click-behavior
-    (function() {
-        // Отслеживаем все клики на странице
-        document.addEventListener('click', function(e) {
-            // Находим ближайшую ссылку, по которой кликнули
-            let target = e.target.closest('a');
-            if (target && target.href) {
-                let url = target.href;
-                // Если ссылка ведет на другой сайт (НЕ ваш GitHub Pages)
-                if (url.indexOf('erannva.github.io') === -1 && 
-                    url.indexOf('gudron-app') === -1) {
-                    e.preventDefault(); // Останавливаем стандартное поведение
-                    // Сообщаем оболочке приложения, что это, возможно, внешняя ссылка
-                    if (window.TelegramWebviewProxy) {
-                        window.TelegramWebviewProxy.postEvent("webview_open_link", JSON.stringify({url: url}));
-                    }
-                }
-            }
-        });
-    })();
-</script>
-	
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <meta name="theme-color" content="#fafafa">
+	<link rel="manifest" href="manifest.json">
     <title>Gudron</title>
     <style>
         * {
