@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <meta name="theme-color" content="#fafafa">
-    <link rel="manifest" href="manifest.json">
+	<link rel="manifest" href="manifest.json">
     <title>Gudron</title>
     <style>
         * {
@@ -15,7 +15,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
-            background: #f5f5f7;
+            background: #fafafa;
             color: #1d1d1f;
             padding: 24px 20px 88px;
         }
@@ -27,34 +27,19 @@
 
         .header {
             margin-bottom: 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .header-left h1 {
+        .header h1 {
             font-size: 32px;
-            font-weight: 600;
+            font-weight: 500;
             letter-spacing: -0.8px;
             color: #1d1d1f;
         }
 
-        .header-left img {
-            width: 34px;
-            height: 34px;
-        }
-
-        .header-right p {
+        .header p {
             font-size: 14px;
-            color: #6e6e73;
+            color: #8e8e93;
             margin-top: 6px;
-            text-align: right;
         }
 
         .tabs {
@@ -84,21 +69,20 @@
         .tab.active {
             background: #ffffff;
             color: #1d1d1f;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .card {
             background: #ffffff;
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
+            border-radius: 28px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 0.5px solid rgba(0, 0, 0, 0.03);
         }
 
         .card-title {
             font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
+            font-weight: 500;
+            margin-bottom: 20px;
             color: #1d1d1f;
             letter-spacing: -0.3px;
         }
@@ -110,7 +94,7 @@
         label {
             font-size: 13px;
             font-weight: 500;
-            color: #6e6e73;
+            color: #8e8e93;
             margin-bottom: 8px;
             display: block;
         }
@@ -123,9 +107,9 @@
         .select-trigger {
             width: 100%;
             padding: 14px 16px;
-            background: #f5f5f7;
-            border: 0.5px solid rgba(0, 0, 0, 0.06);
-            border-radius: 14px;
+            background: #f8f8fa;
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
+            border-radius: 18px;
             font-size: 16px;
             color: #1d1d1f;
             cursor: pointer;
@@ -137,7 +121,7 @@
         .select-trigger::after {
             content: '›';
             font-size: 20px;
-            color: #6e6e73;
+            color: #c6c6c8;
             transition: transform 0.2s;
         }
 
@@ -151,7 +135,7 @@
             left: 0;
             right: 0;
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: 20px;
             box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
             z-index: 100;
             max-height: 280px;
@@ -159,7 +143,6 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.2s ease;
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
         }
 
         .select-dropdown.open {
@@ -175,22 +158,44 @@
             transition: background 0.2s;
         }
 
+        .select-dropdown-item:first-child {
+            border-radius: 20px 20px 0 0;
+        }
+
+        .select-dropdown-item:last-child {
+            border-radius: 0 0 20px 20px;
+        }
+
         .select-dropdown-item:hover,
         .select-dropdown-item:active {
-            background: #f5f5f7;
+            background: #f8f8fa;
         }
 
         .select-dropdown-item.selected {
-            background: #f5f5f7;
+            background: #f0f0f2;
             font-weight: 500;
+        }
+
+        .select-dropdown::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .select-dropdown::-webkit-scrollbar-track {
+            background: #f0f0f2;
+            border-radius: 4px;
+        }
+
+        .select-dropdown::-webkit-scrollbar-thumb {
+            background: #c6c6c8;
+            border-radius: 4px;
         }
 
         input {
             width: 100%;
             padding: 14px 16px;
-            background: #f5f5f7;
-            border: 0.5px solid rgba(0, 0, 0, 0.06);
-            border-radius: 14px;
+            background: #f8f8fa;
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
+            border-radius: 18px;
             font-size: 16px;
             color: #1d1d1f;
             font-family: inherit;
@@ -198,7 +203,29 @@
 
         input:focus {
             outline: none;
-            border-color: #007aff;
+            border-color: #c4c4c6;
+            background: #ffffff;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 0.5;
+        }
+
+        #searchProductInput {
+            width: 100%;
+            padding: 14px 16px;
+            background: #f8f8fa;
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
+            border-radius: 18px;
+            font-size: 16px;
+            color: #1d1d1f;
+            font-family: inherit;
+        }
+
+        #searchProductInput:focus {
+            outline: none;
+            border-color: #c4c4c6;
             background: #ffffff;
         }
 
@@ -206,16 +233,11 @@
             width: 100%;
             padding: 14px 16px;
             border: none;
-            border-radius: 14px;
+            border-radius: 40px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
-        }
-
-        .btn-primary:active,
-        .btn-danger:active {
-            transform: scale(0.98);
         }
 
         .btn-primary {
@@ -223,10 +245,20 @@
             color: #ffffff;
         }
 
+        .btn-primary:active {
+            background: #2c2c2e;
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: #f8f8fa;
+            color: #1d1d1f;
+            border: 0.5px solid rgba(0, 0, 0, 0.06);
+        }
+
         .btn-danger {
             background: #fef6f6;
             color: #c4a0a0;
-            border: 0.5px solid rgba(196, 160, 160, 0.3);
         }
 
         .rings-container {
@@ -244,8 +276,8 @@
 
         .ring-label {
             font-size: 12px;
-            font-weight: 500;
-            color: #6e6e73;
+            font-weight: 450;
+            color: #8e8e93;
             margin-top: 8px;
         }
 
@@ -267,7 +299,7 @@
 
         .ring-bg {
             fill: none;
-            stroke: #e5e5ea;
+            stroke: #f0f0f2;
             stroke-width: 5;
         }
 
@@ -288,7 +320,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-weight: 600;
+            font-weight: 500;
             font-size: 13px;
             color: #1d1d1f;
         }
@@ -323,7 +355,7 @@
 
         .food-macros {
             font-size: 12px;
-            color: #6e6e73;
+            color: #8e8e93;
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
@@ -348,7 +380,7 @@
         .food-weight {
             font-size: 13px;
             font-weight: 450;
-            color: #6e6e73;
+            color: #8e8e93;
         }
 
         .icon-btn {
@@ -356,7 +388,7 @@
             border: none;
             font-size: 22px;
             font-weight: 400;
-            color: #8e8e93;
+            color: #c6c6c8;
             cursor: pointer;
             padding: 8px;
             border-radius: 20px;
@@ -365,15 +397,16 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s;
         }
 
         .icon-btn:active {
-            background: #f5f5f7;
+            background: #f0f0f2;
         }
 
         .history-item {
-            background: #f5f5f7;
-            border-radius: 16px;
+            background: #f8f8fa;
+            border-radius: 20px;
             padding: 16px;
             margin-bottom: 10px;
         }
@@ -383,12 +416,11 @@
             justify-content: space-between;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #1d1d1f;
         }
 
         .history-details {
             font-size: 12px;
-            color: #6e6e73;
+            color: #8e8e93;
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
@@ -396,14 +428,14 @@
 
         .time-badge {
             font-size: 11px;
-            color: #6e6e73;
+            color: #c6c6c8;
             margin-top: 6px;
         }
 
         .empty-state {
             text-align: center;
             padding: 48px 20px;
-            color: #8e8e93;
+            color: #c6c6c8;
             font-size: 14px;
         }
 
@@ -452,6 +484,7 @@
             flex: 1;
         }
 
+        /* ===== СТИЛИ ДЛЯ СТАТИСТИКИ В АРХИВЕ ===== */
         .history-stat-row {
             display: flex;
             justify-content: space-between;
@@ -471,16 +504,18 @@
             color: #1d1d1f;
         }
 
+        /* Достижение нормы (зеленый оттенок) */
         .achieved {
-            background: linear-gradient(90deg, rgba(155, 174, 140, 0.15) 0%, transparent 70%);
+            background: linear-gradient(90deg, rgba(155, 174, 140, 0.15) 0%, rgba(155, 174, 140, 0) 70%);
             border-left: 3px solid #9bae8c;
             padding-left: 12px;
             margin-left: -15px;
             border-radius: 0 12px 12px 0;
         }
 
+        /* Перебор нормы (мягкий красный/розовый оттенок) */
         .over {
-            background: linear-gradient(90deg, rgba(212, 165, 140, 0.15) 0%, transparent 70%);
+            background: linear-gradient(90deg, rgba(212, 165, 140, 0.2) 0%, rgba(212, 165, 140, 0) 70%);
             border-left: 3px solid #d4a58c;
             padding-left: 12px;
             margin-left: -15px;
@@ -501,7 +536,7 @@
     <link rel="icon" type="image/png" href="image1.svg">
 </head>
 <body>
-     <div class="container">
+    <div class="container">
         <div class="header">
             <div style="display: flex; align-items: center; gap: 12px;">
                 <h1 style="margin: 0;">Gudron</h1>
@@ -645,7 +680,7 @@
                     </div>
                 </div>
                 <div class="button-group">
-                    <button class="btn btn-primary" onclick="copyToToday()">Копировать</button>
+                    <button class="btn btn-secondary" onclick="copyToToday()">Копировать</button>
                     <button class="btn btn-danger" onclick="deleteDay()">Удалить</button>
                 </div>
             </div>
@@ -798,17 +833,20 @@
             let total = { calories: 0, protein: 0, fat: 0, carbs: 0 };
             data.forEach(f => { total.calories += f.calories; total.protein += f.protein; total.fat += f.fat; total.carbs += f.carbs; });
             
+            // Определяем проценты выполнения
             const calPercent = (total.calories / norms.calories) * 100;
             const proPercent = (total.protein / norms.protein) * 100;
             const fatPercent = (total.fat / norms.fat) * 100;
             const carbsPercent = (total.carbs / norms.carbs) * 100;
             
+            // Функция для определения класса строки
             function getRowClass(percent) {
                 if (percent >= 95 && percent <= 105) return 'achieved';
                 if (percent > 105) return 'over';
                 return '';
             }
             
+            // Функция для класса текста значения
             function getValueClass(percent) {
                 if (percent >= 95 && percent <= 105) return 'achieved-text';
                 if (percent > 105) return 'over-text';
@@ -942,6 +980,7 @@
         }
         
         function removeFromToday(index) { todayFoods.splice(index, 1); saveData(); updateTodayDisplay(); }
+        
         function resetDay() { if (confirm('Очистить всё?')) { todayFoods = []; saveData(); updateTodayDisplay(); } }
         
         function updateNorms() {
@@ -1072,9 +1111,7 @@
             document.getElementById('diaryTab').style.display = tab === 'diary' ? 'block' : 'none';
             document.getElementById('productsTab').style.display = tab === 'products' ? 'block' : 'none';
             document.getElementById('historyTab').style.display = tab === 'history' ? 'block' : 'none';
-            document.querySelectorAll('.tab').forEach((t, i) => {
-                t.classList.toggle('active', (tab === 'diary' && i === 0) || (tab === 'products' && i === 1) || (tab === 'history' && i === 2));
-            });
+            document.querySelectorAll('.tab').forEach((t, i) => { t.classList.toggle('active', (tab === 'diary' && i === 0) || (tab === 'products' && i === 1) || (tab === 'history' && i === 2)); });
         }
         
         loadData();
