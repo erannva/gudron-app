@@ -15,7 +15,6 @@
 
         /* ===== ПЕРЕМЕННЫЕ ТЕМ ===== */
         :root {
-            /* Светлая тема (по умолчанию) */
             --bg-body: #f5f5f7;
             --text-primary: #1d1d1f;
             --text-secondary: #6e6e73;
@@ -41,10 +40,10 @@
             --over-border: #d4a58c;
             --over-text: #d4a58c;
             --separator: rgba(0, 0, 0, 0.04);
+            --icon-color: #1d1d1f;
         }
 
         body.dark-theme {
-            /* Тёмная тема */
             --bg-body: #000000;
             --text-primary: #ffffff;
             --text-secondary: #8e8e93;
@@ -70,6 +69,7 @@
             --over-border: #ff453a;
             --over-text: #ff453a;
             --separator: rgba(255, 255, 255, 0.06);
+            --icon-color: #ffffff;
         }
 
         body {
@@ -89,7 +89,13 @@
             margin-bottom: 32px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .header-left h1 {
@@ -99,10 +105,16 @@
             color: var(--text-primary);
         }
 
-        .header-left p {
+        .header-left img {
+            width: 34px;
+            height: 34px;
+        }
+
+        .header-right p {
             font-size: 14px;
             color: var(--text-secondary);
             margin-top: 6px;
+            text-align: right;
         }
 
         /* iOS-style toggle button */
@@ -118,7 +130,7 @@
             justify-content: center;
             border-radius: 50%;
             transition: background 0.2s ease;
-            margin-top: -4px;
+            color: var(--icon-color);
         }
 
         .theme-toggle:active {
@@ -132,20 +144,25 @@
         .theme-toggle svg {
             width: 24px;
             height: 24px;
-            stroke: var(--text-primary);
+            stroke: currentColor;
             stroke-width: 1.5;
             fill: none;
         }
 
-        body.dark-theme .theme-toggle .sun-icon {
+        .sun-icon,
+        .moon-icon {
+            transition: opacity 0.2s ease;
+        }
+
+        body.dark-theme .sun-icon {
             display: none;
         }
 
-        body.dark-theme .theme-toggle .moon-icon {
+        body.dark-theme .moon-icon {
             display: block;
         }
 
-        .theme-toggle .moon-icon {
+        .moon-icon {
             display: none;
         }
 
@@ -554,7 +571,6 @@
             flex: 1;
         }
 
-        /* История */
         .history-stat-row {
             display: flex;
             justify-content: space-between;
@@ -608,17 +624,20 @@
         <div class="header">
             <div class="header-left">
                 <h1>Gudron</h1>
+                <img src="image2.png" width="34" height="34" alt="icon">
+            </div>
+            <div class="header-right">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M12 2V4M12 20V22M22 12H20M4 12H2M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C10.5 4 10 6.5 10 10C10 13.5 12 16 12 18C14 16 17 13.5 17 10C17 6.5 15.5 4 12 2Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </button>
                 <p>дневник питания</p>
             </div>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">
-                <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M12 2V4M12 20V22M22 12H20M4 12H2M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C10.5 4 10 6.5 10 10C10 13.5 12 16 12 18C14 16 17 13.5 17 10C17 6.5 15.5 4 12 2Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                </svg>
-            </button>
         </div>
 
         <div class="tabs">
