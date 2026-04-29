@@ -501,20 +501,18 @@
     <link rel="icon" type="image/png" href="image1.svg">
 </head>
 <body>
-    <div class="container">
+     <div class="container">
         <div class="header">
-    <div class="header-left">
-        <div>
-            <h1>Gudron</h1>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <h1 style="margin: 0;">Gudron</h1>
+                <img src="image2.png" width="34" height="34" alt="icon">
+            </div>
             <p>дневник питания</p>
         </div>
-        <img src="image2.png" alt="icon">
-    </div>
-</div>
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab('diary')">Сегодня</button>
-            <button class="tab" onclick="switchTab('products')">База</button>
+            <button class="tab" onclick="switchTab('products')">База продуктов</button>
             <button class="tab" onclick="switchTab('history')">История</button>
         </div>
 
