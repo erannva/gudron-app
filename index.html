@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <meta name="theme-color" content="#fafafa">
-	<link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json">
     <title>Gudron</title>
     <style>
         * {
@@ -13,11 +13,71 @@
             box-sizing: border-box;
         }
 
+        /* ===== ПЕРЕМЕННЫЕ ТЕМ ===== */
+        :root {
+            /* Светлая тема (по умолчанию) */
+            --bg-body: #f5f5f7;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.04);
+            --input-bg: #f5f5f7;
+            --input-border: rgba(0, 0, 0, 0.06);
+            --btn-primary-bg: #1d1d1f;
+            --btn-primary-text: #ffffff;
+            --btn-secondary-bg: #f5f5f7;
+            --btn-secondary-text: #1d1d1f;
+            --btn-danger-bg: #fef6f6;
+            --btn-danger-text: #c4a0a0;
+            --ring-bg: #e5e5ea;
+            --ring-cal: #1d1d1f;
+            --ring-pro: #9bae8c;
+            --ring-fat: #d4a58c;
+            --ring-carbs: #8cadc4;
+            --achieved-bg: rgba(155, 174, 140, 0.15);
+            --achieved-border: #9bae8c;
+            --achieved-text: #9bae8c;
+            --over-bg: rgba(212, 165, 140, 0.15);
+            --over-border: #d4a58c;
+            --over-text: #d4a58c;
+            --separator: rgba(0, 0, 0, 0.04);
+        }
+
+        body.dark-theme {
+            /* Тёмная тема */
+            --bg-body: #000000;
+            --text-primary: #ffffff;
+            --text-secondary: #8e8e93;
+            --card-bg: #1c1c1e;
+            --card-border: rgba(255, 255, 255, 0.05);
+            --input-bg: #2c2c2e;
+            --input-border: rgba(255, 255, 255, 0.08);
+            --btn-primary-bg: #ffffff;
+            --btn-primary-text: #000000;
+            --btn-secondary-bg: #2c2c2e;
+            --btn-secondary-text: #ffffff;
+            --btn-danger-bg: #3a3a3c;
+            --btn-danger-text: #ff453a;
+            --ring-bg: #2c2c2e;
+            --ring-cal: #ffffff;
+            --ring-pro: #9bae8c;
+            --ring-fat: #d4a58c;
+            --ring-carbs: #8cadc4;
+            --achieved-bg: rgba(155, 174, 140, 0.2);
+            --achieved-border: #9bae8c;
+            --achieved-text: #9bae8c;
+            --over-bg: rgba(255, 69, 58, 0.15);
+            --over-border: #ff453a;
+            --over-text: #ff453a;
+            --separator: rgba(255, 255, 255, 0.06);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
-            background: #fafafa;
-            color: #1d1d1f;
+            background: var(--bg-body);
+            color: var(--text-primary);
             padding: 24px 20px 88px;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .container {
@@ -27,29 +87,76 @@
 
         .header {
             margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
 
-        .header h1 {
+        .header-left h1 {
             font-size: 32px;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: -0.8px;
-            color: #1d1d1f;
+            color: var(--text-primary);
         }
 
-        .header p {
+        .header-left p {
             font-size: 14px;
-            color: #8e8e93;
+            color: var(--text-secondary);
             margin-top: 6px;
+        }
+
+        /* iOS-style toggle button */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+            margin-top: -4px;
+        }
+
+        .theme-toggle:active {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-theme .theme-toggle:active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .theme-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-primary);
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        body.dark-theme .theme-toggle .sun-icon {
+            display: none;
+        }
+
+        body.dark-theme .theme-toggle .moon-icon {
+            display: block;
+        }
+
+        .theme-toggle .moon-icon {
+            display: none;
         }
 
         .tabs {
             display: flex;
             gap: 2px;
-            background: #ffffff;
+            background: var(--card-bg);
             padding: 4px;
             border-radius: 14px;
             margin-bottom: 24px;
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
+            border: 0.5px solid var(--card-border);
         }
 
         .tab {
@@ -60,30 +167,32 @@
             border: none;
             font-size: 15px;
             font-weight: 500;
-            color: #8e8e93;
+            color: var(--text-secondary);
             cursor: pointer;
             border-radius: 12px;
             transition: all 0.2s;
         }
 
         .tab.active {
-            background: #ffffff;
-            color: #1d1d1f;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .card {
-            background: #ffffff;
-            border-radius: 28px;
-            padding: 24px;
-            margin-bottom: 20px;
-            border: 0.5px solid rgba(0, 0, 0, 0.03);
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 0.5px solid var(--card-border);
+            transition: background 0.3s ease;
         }
 
         .card-title {
             font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            color: #1d1d1f;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
             letter-spacing: -0.3px;
         }
 
@@ -94,7 +203,7 @@
         label {
             font-size: 13px;
             font-weight: 500;
-            color: #8e8e93;
+            color: var(--text-secondary);
             margin-bottom: 8px;
             display: block;
         }
@@ -107,21 +216,22 @@
         .select-trigger {
             width: 100%;
             padding: 14px 16px;
-            background: #f8f8fa;
-            border: 0.5px solid rgba(0, 0, 0, 0.08);
-            border-radius: 18px;
+            background: var(--input-bg);
+            border: 0.5px solid var(--input-border);
+            border-radius: 14px;
             font-size: 16px;
-            color: #1d1d1f;
+            color: var(--text-primary);
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: background 0.3s ease;
         }
 
         .select-trigger::after {
             content: '›';
             font-size: 20px;
-            color: #c6c6c8;
+            color: var(--text-secondary);
             transition: transform 0.2s;
         }
 
@@ -134,8 +244,8 @@
             top: calc(100% + 8px);
             left: 0;
             right: 0;
-            background: #ffffff;
-            border-radius: 20px;
+            background: var(--card-bg);
+            border-radius: 16px;
             box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
             z-index: 100;
             max-height: 280px;
@@ -143,6 +253,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.2s ease;
+            border: 0.5px solid var(--card-border);
         }
 
         .select-dropdown.open {
@@ -153,112 +264,70 @@
         .select-dropdown-item {
             padding: 14px 16px;
             font-size: 16px;
-            color: #1d1d1f;
+            color: var(--text-primary);
             cursor: pointer;
             transition: background 0.2s;
         }
 
-        .select-dropdown-item:first-child {
-            border-radius: 20px 20px 0 0;
-        }
-
-        .select-dropdown-item:last-child {
-            border-radius: 0 0 20px 20px;
-        }
-
         .select-dropdown-item:hover,
         .select-dropdown-item:active {
-            background: #f8f8fa;
+            background: var(--input-bg);
         }
 
         .select-dropdown-item.selected {
-            background: #f0f0f2;
+            background: var(--input-bg);
             font-weight: 500;
-        }
-
-        .select-dropdown::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .select-dropdown::-webkit-scrollbar-track {
-            background: #f0f0f2;
-            border-radius: 4px;
-        }
-
-        .select-dropdown::-webkit-scrollbar-thumb {
-            background: #c6c6c8;
-            border-radius: 4px;
         }
 
         input {
             width: 100%;
             padding: 14px 16px;
-            background: #f8f8fa;
-            border: 0.5px solid rgba(0, 0, 0, 0.08);
-            border-radius: 18px;
+            background: var(--input-bg);
+            border: 0.5px solid var(--input-border);
+            border-radius: 14px;
             font-size: 16px;
-            color: #1d1d1f;
+            color: var(--text-primary);
             font-family: inherit;
+            transition: background 0.3s ease;
         }
 
         input:focus {
             outline: none;
-            border-color: #c4c4c6;
-            background: #ffffff;
-        }
-
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            opacity: 0.5;
-        }
-
-        #searchProductInput {
-            width: 100%;
-            padding: 14px 16px;
-            background: #f8f8fa;
-            border: 0.5px solid rgba(0, 0, 0, 0.08);
-            border-radius: 18px;
-            font-size: 16px;
-            color: #1d1d1f;
-            font-family: inherit;
-        }
-
-        #searchProductInput:focus {
-            outline: none;
-            border-color: #c4c4c6;
-            background: #ffffff;
+            border-color: #007aff;
+            background: var(--card-bg);
         }
 
         .btn {
             width: 100%;
             padding: 14px 16px;
             border: none;
-            border-radius: 40px;
+            border-radius: 14px;
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .btn-primary {
-            background: #1d1d1f;
-            color: #ffffff;
-        }
-
-        .btn-primary:active {
-            background: #2c2c2e;
+        .btn-primary:active,
+        .btn-secondary:active,
+        .btn-danger:active {
             transform: scale(0.98);
         }
 
+        .btn-primary {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+        }
+
         .btn-secondary {
-            background: #f8f8fa;
-            color: #1d1d1f;
-            border: 0.5px solid rgba(0, 0, 0, 0.06);
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text);
+            border: 0.5px solid var(--input-border);
         }
 
         .btn-danger {
-            background: #fef6f6;
-            color: #c4a0a0;
+            background: var(--btn-danger-bg);
+            color: var(--btn-danger-text);
         }
 
         .rings-container {
@@ -276,15 +345,15 @@
 
         .ring-label {
             font-size: 12px;
-            font-weight: 450;
-            color: #8e8e93;
+            font-weight: 500;
+            color: var(--text-secondary);
             margin-top: 8px;
         }
 
         .ring-value {
             font-size: 14px;
             font-weight: 500;
-            color: #1d1d1f;
+            color: var(--text-primary);
             margin-top: 4px;
         }
 
@@ -299,7 +368,7 @@
 
         .ring-bg {
             fill: none;
-            stroke: #f0f0f2;
+            stroke: var(--ring-bg);
             stroke-width: 5;
         }
 
@@ -310,19 +379,19 @@
             transition: stroke-dasharray 0.3s ease;
         }
 
-        .ring-progress.cal { stroke: #1d1d1f; }
-        .ring-progress.pro { stroke: #9bae8c; }
-        .ring-progress.fat { stroke: #d4a58c; }
-        .ring-progress.carbs { stroke: #8cadc4; }
+        .ring-progress.cal { stroke: var(--ring-cal); }
+        .ring-progress.pro { stroke: var(--ring-pro); }
+        .ring-progress.fat { stroke: var(--ring-fat); }
+        .ring-progress.carbs { stroke: var(--ring-carbs); }
 
         .ring-center {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-weight: 500;
+            font-weight: 600;
             font-size: 13px;
-            color: #1d1d1f;
+            color: var(--text-primary);
         }
 
         .food-list {
@@ -332,7 +401,7 @@
 
         .food-item {
             padding: 14px 0;
-            border-bottom: 0.5px solid rgba(0, 0, 0, 0.04);
+            border-bottom: 0.5px solid var(--separator);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -350,12 +419,12 @@
             font-size: 15px;
             font-weight: 500;
             margin-bottom: 6px;
-            color: #1d1d1f;
+            color: var(--text-primary);
         }
 
         .food-macros {
             font-size: 12px;
-            color: #8e8e93;
+            color: var(--text-secondary);
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
@@ -380,7 +449,7 @@
         .food-weight {
             font-size: 13px;
             font-weight: 450;
-            color: #8e8e93;
+            color: var(--text-secondary);
         }
 
         .icon-btn {
@@ -388,7 +457,7 @@
             border: none;
             font-size: 22px;
             font-weight: 400;
-            color: #c6c6c8;
+            color: var(--text-secondary);
             cursor: pointer;
             padding: 8px;
             border-radius: 20px;
@@ -401,12 +470,12 @@
         }
 
         .icon-btn:active {
-            background: #f0f0f2;
+            background: var(--input-bg);
         }
 
         .history-item {
-            background: #f8f8fa;
-            border-radius: 20px;
+            background: var(--input-bg);
+            border-radius: 16px;
             padding: 16px;
             margin-bottom: 10px;
         }
@@ -416,11 +485,12 @@
             justify-content: space-between;
             margin-bottom: 8px;
             font-weight: 500;
+            color: var(--text-primary);
         }
 
         .history-details {
             font-size: 12px;
-            color: #8e8e93;
+            color: var(--text-secondary);
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
@@ -428,14 +498,14 @@
 
         .time-badge {
             font-size: 11px;
-            color: #c6c6c8;
+            color: var(--text-secondary);
             margin-top: 6px;
         }
 
         .empty-state {
             text-align: center;
             padding: 48px 20px;
-            color: #c6c6c8;
+            color: var(--text-secondary);
             font-size: 14px;
         }
 
@@ -484,7 +554,7 @@
             flex: 1;
         }
 
-        /* ===== СТИЛИ ДЛЯ СТАТИСТИКИ В АРХИВЕ ===== */
+        /* История */
         .history-stat-row {
             display: flex;
             justify-content: space-between;
@@ -495,40 +565,38 @@
         .history-stat-label {
             font-size: 14px;
             font-weight: 450;
-            color: #8e8e93;
+            color: var(--text-secondary);
         }
 
         .history-stat-value {
             font-size: 18px;
             font-weight: 500;
-            color: #1d1d1f;
+            color: var(--text-primary);
         }
 
-        /* Достижение нормы (зеленый оттенок) */
         .achieved {
-            background: linear-gradient(90deg, rgba(155, 174, 140, 0.15) 0%, rgba(155, 174, 140, 0) 70%);
-            border-left: 3px solid #9bae8c;
+            background: linear-gradient(90deg, var(--achieved-bg) 0%, transparent 70%);
+            border-left: 3px solid var(--achieved-border);
             padding-left: 12px;
             margin-left: -15px;
             border-radius: 0 12px 12px 0;
         }
 
-        /* Перебор нормы (мягкий красный/розовый оттенок) */
         .over {
-            background: linear-gradient(90deg, rgba(212, 165, 140, 0.2) 0%, rgba(212, 165, 140, 0) 70%);
-            border-left: 3px solid #d4a58c;
+            background: linear-gradient(90deg, var(--over-bg) 0%, transparent 70%);
+            border-left: 3px solid var(--over-border);
             padding-left: 12px;
             margin-left: -15px;
             border-radius: 0 12px 12px 0;
         }
 
         .history-stat-value.achieved-text {
-            color: #9bae8c;
+            color: var(--achieved-text);
             font-weight: 600;
         }
 
         .history-stat-value.over-text {
-            color: #d4a58c;
+            color: var(--over-text);
             font-weight: 600;
         }
     </style>
@@ -538,16 +606,24 @@
 <body>
     <div class="container">
         <div class="header">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <h1 style="margin: 0;">Gudron</h1>
-                <img src="image2.png" width="34" height="34" alt="icon">
+            <div class="header-left">
+                <h1>Gudron</h1>
+                <p>дневник питания</p>
             </div>
-            <p>дневник питания</p>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">
+                <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M12 2V4M12 20V22M22 12H20M4 12H2M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C10.5 4 10 6.5 10 10C10 13.5 12 16 12 18C14 16 17 13.5 17 10C17 6.5 15.5 4 12 2Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                </svg>
+            </button>
         </div>
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab('diary')">Сегодня</button>
-            <button class="tab" onclick="switchTab('products')">База продуктов</button>
+            <button class="tab" onclick="switchTab('products')">База</button>
             <button class="tab" onclick="switchTab('history')">История</button>
         </div>
 
@@ -658,7 +734,7 @@
             
             <div class="card">
                 <div class="card-title">Поиск</div>
-                <input type="text" id="searchProductInput" placeholder="почему родители не могут мной гордиться..." oninput="filterProducts()">
+                <input type="text" id="searchProductInput" placeholder="Найти продукт..." oninput="filterProducts()">
             </div>
             
             <div class="card">
@@ -711,6 +787,23 @@
         let selectedHistoryDate = null;
         let selectedHistoryData = null;
         
+        // === ПЕРЕКЛЮЧЕНИЕ ТЕМЫ iOS ===
+        const themeToggle = document.getElementById('theme-toggle');
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+        
+        // === ПОИСК В МОИХ ПРОДУКТАХ ===
         function filterProducts() {
             const searchTerm = document.getElementById('searchProductInput').value.toLowerCase().trim();
             const listDiv = document.getElementById('productsList');
@@ -833,20 +926,17 @@
             let total = { calories: 0, protein: 0, fat: 0, carbs: 0 };
             data.forEach(f => { total.calories += f.calories; total.protein += f.protein; total.fat += f.fat; total.carbs += f.carbs; });
             
-            // Определяем проценты выполнения
             const calPercent = (total.calories / norms.calories) * 100;
             const proPercent = (total.protein / norms.protein) * 100;
             const fatPercent = (total.fat / norms.fat) * 100;
             const carbsPercent = (total.carbs / norms.carbs) * 100;
             
-            // Функция для определения класса строки
             function getRowClass(percent) {
                 if (percent >= 95 && percent <= 105) return 'achieved';
                 if (percent > 105) return 'over';
                 return '';
             }
             
-            // Функция для класса текста значения
             function getValueClass(percent) {
                 if (percent >= 95 && percent <= 105) return 'achieved-text';
                 if (percent > 105) return 'over-text';
@@ -980,7 +1070,6 @@
         }
         
         function removeFromToday(index) { todayFoods.splice(index, 1); saveData(); updateTodayDisplay(); }
-        
         function resetDay() { if (confirm('Очистить всё?')) { todayFoods = []; saveData(); updateTodayDisplay(); } }
         
         function updateNorms() {
@@ -1111,7 +1200,9 @@
             document.getElementById('diaryTab').style.display = tab === 'diary' ? 'block' : 'none';
             document.getElementById('productsTab').style.display = tab === 'products' ? 'block' : 'none';
             document.getElementById('historyTab').style.display = tab === 'history' ? 'block' : 'none';
-            document.querySelectorAll('.tab').forEach((t, i) => { t.classList.toggle('active', (tab === 'diary' && i === 0) || (tab === 'products' && i === 1) || (tab === 'history' && i === 2)); });
+            document.querySelectorAll('.tab').forEach((t, i) => {
+                t.classList.toggle('active', (tab === 'diary' && i === 0) || (tab === 'products' && i === 1) || (tab === 'history' && i === 2));
+            });
         }
         
         loadData();
