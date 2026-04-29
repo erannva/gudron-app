@@ -13,6 +13,51 @@
             box-sizing: border-box;
         }
 
+		        /* Принудительно отключаем влияние системной тёмной темы */
+        html {
+            color-scheme: only light;
+        }
+        
+        body {
+            /* Явно задаём светлые цвета, которые не переопределятся системой */
+            background: #fafafa !important;
+            color: #1d1d1f !important;
+        }
+        
+        /* Все карточки и элементы тоже принудительно светлые */
+        .card,
+        .tabs,
+        .tab.active,
+        .select-dropdown,
+        input:focus {
+            background: #ffffff !important;
+        }
+        
+        .select-dropdown-item:hover,
+        .select-dropdown-item:active,
+        .select-dropdown-item.selected {
+            background: #f8f8fa !important;
+        }
+        
+        .ring-bg {
+            stroke: #f0f0f2 !important;
+        }
+        
+        .ring-progress.cal { stroke: #1d1d1f !important; }
+        .ring-progress.pro { stroke: #9bae8c !important; }
+        .ring-progress.fat { stroke: #d4a58c !important; }
+        .ring-progress.carbs { stroke: #8cadc4 !important; }
+        
+        .achieved {
+            background: linear-gradient(90deg, rgba(155, 174, 140, 0.15) 0%, rgba(155, 174, 140, 0) 70%) !important;
+            border-left: 3px solid #9bae8c !important;
+        }
+        
+        .over {
+            background: linear-gradient(90deg, rgba(212, 165, 140, 0.2) 0%, rgba(212, 165, 140, 0) 70%) !important;
+            border-left: 3px solid #d4a58c !important;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
             background: #fafafa;
