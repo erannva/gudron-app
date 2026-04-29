@@ -28,6 +28,7 @@
             --btn-secondary-text: #1d1d1f;
             --btn-danger-bg: #fef6f6;
             --btn-danger-text: #c4a0a0;
+            --btn-danger-border: rgba(196, 160, 160, 0.3);
             --ring-bg: #e5e5ea;
             --ring-cal: #1d1d1f;
             --ring-pro: #9bae8c;
@@ -41,6 +42,7 @@
             --over-text: #d4a58c;
             --separator: rgba(0, 0, 0, 0.04);
             --icon-color: #1d1d1f;
+            --header-icon: url('image2.png');
         }
 
         body.dark-theme {
@@ -55,8 +57,9 @@
             --btn-primary-text: #000000;
             --btn-secondary-bg: #2c2c2e;
             --btn-secondary-text: #ffffff;
-            --btn-danger-bg: #3a3a3c;
-            --btn-danger-text: #ff453a;
+            --btn-danger-bg: rgba(212, 175, 55, 0.12);
+            --btn-danger-text: #D4AF37;
+            --btn-danger-border: rgba(212, 175, 55, 0.3);
             --ring-bg: #2c2c2e;
             --ring-cal: #ffffff;
             --ring-pro: #9bae8c;
@@ -65,11 +68,12 @@
             --achieved-bg: rgba(155, 174, 140, 0.2);
             --achieved-border: #9bae8c;
             --achieved-text: #9bae8c;
-            --over-bg: rgba(255, 69, 58, 0.15);
-            --over-border: #ff453a;
-            --over-text: #ff453a;
+            --over-bg: rgba(212, 175, 55, 0.12);
+            --over-border: #D4AF37;
+            --over-text: #D4AF37;
             --separator: rgba(255, 255, 255, 0.06);
             --icon-color: #ffffff;
+            --header-icon: url('image3.png');
         }
 
         body {
@@ -105,9 +109,10 @@
             color: var(--text-primary);
         }
 
-        .header-left img {
+        .header-icon-img {
             width: 34px;
             height: 34px;
+            object-fit: contain;
         }
 
         .header-right p {
@@ -117,7 +122,6 @@
             text-align: right;
         }
 
-        /* iOS-style toggle button */
         .theme-toggle {
             background: none;
             border: none;
@@ -147,11 +151,6 @@
             stroke: currentColor;
             stroke-width: 1.5;
             fill: none;
-        }
-
-        .sun-icon,
-        .moon-icon {
-            transition: opacity 0.2s ease;
         }
 
         body.dark-theme .sun-icon {
@@ -345,6 +344,7 @@
         .btn-danger {
             background: var(--btn-danger-bg);
             color: var(--btn-danger-text);
+            border: 0.5px solid var(--btn-danger-border);
         }
 
         .rings-container {
@@ -624,7 +624,7 @@
         <div class="header">
             <div class="header-left">
                 <h1>Gudron</h1>
-                <img src="image2.png" width="34" height="34" alt="icon">
+                <img src="image2.png" class="header-icon-img" alt="icon">
             </div>
             <div class="header-right">
                 <button id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">
@@ -806,20 +806,29 @@
         let selectedHistoryDate = null;
         let selectedHistoryData = null;
         
-        // === ПЕРЕКЛЮЧЕНИЕ ТЕМЫ iOS ===
+        // Переключение темы
         const themeToggle = document.getElementById('theme-toggle');
         const savedTheme = localStorage.getItem('theme');
+        const headerIcon = document.querySelector('.header-icon-img');
+        
+        function updateHeaderIcon() {
+            if (document.body.classList.contains('dark-theme')) {
+                headerIcon.src = 'image3.png';
+            } else {
+                headerIcon.src = 'image2.png';
+            }
+        }
         
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-theme');
-        } else {
-            document.body.classList.remove('dark-theme');
         }
+        updateHeaderIcon();
         
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-theme');
             const isDark = document.body.classList.contains('dark-theme');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateHeaderIcon();
         });
         
         // === ПОИСК В МОИХ ПРОДУКТАХ ===
